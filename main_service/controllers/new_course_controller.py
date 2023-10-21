@@ -1,7 +1,7 @@
 from flask import jsonify, Blueprint,request,json,Flask
 from services import new_course_services
 
-bp = Blueprint('api/newcourse', __name__, url_prefix='/api/newcourse')
+bp = Blueprint('newcourse', __name__, url_prefix='/api/newcourse')
 
 @bp.route('/addpdf',methods=["POST"])
 def add_new_pdf():
