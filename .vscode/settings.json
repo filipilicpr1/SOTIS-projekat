@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "./main_service",
+        "./main_service/controllers"
+    ]
+}
