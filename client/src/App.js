@@ -1,7 +1,8 @@
+import NewCourse from "./components/NewCourse";
 function App() {
   return (
     <div>
-      CAO
+      <NewCourse/>
     </div>
   );
 }
