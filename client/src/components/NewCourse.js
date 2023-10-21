@@ -1,24 +1,20 @@
-import React,{useState} from "react";
-import {  SendPDFFileForCourse} from "../services/newCourseServices";
+import React from "react";
+import {SendPDFFileForCourse} from "../services/newCourseServices";
 
 export default function NewCourse(){
-
-    const [selectedFile, setSelectedFile] = useState(null);
     
     const handleFileChange = async (e) => {
-        setSelectedFile(e.target.files[0]);
-        const formData = new FormData();
-        formData.append('pdfFile', selectedFile);
-        const response=await SendPDFFileForCourse(formData);
+        const data = new FormData();
+        data.append('pdfFile', e.target.files[0]);
+        data.append('filename', "file");
+        const response=await SendPDFFileForCourse(data);
         console.log(response)
-    };
+    }
 
-      
     return(
         <div>
-      <h1>PDF File Upload</h1>
-      <input type="file" accept=".pdf" onChange={handleFileChange} />
-      
-    </div>
+            <h1>PDF File Upload</h1>
+            <input type="file" accept=".pdf" onChange={handleFileChange} />
+        </div>
     );
 }

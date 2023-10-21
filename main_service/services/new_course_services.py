@@ -3,7 +3,7 @@ from decouple import config
 
 PYTHON_SERVICE_API_URI = config('PYTHON_SERVICE_API_URI')
 
-def add_new_pdf_function(pdf_file):
+def upload_new_pdf_and_send_to_service(pdf_file):
     files = {
     'data' : pdf_file
     }
