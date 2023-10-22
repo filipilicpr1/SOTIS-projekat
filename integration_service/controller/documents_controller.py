@@ -1,5 +1,5 @@
 from flask import Flask, Blueprint, request, jsonify, make_response
-from service.documents_service import get_documents, save_documents
+from service.documents_service import pickle_document, save_documents
 from .constants import PDF_FILE_ERROR, SUCCESS_RESPONSE
 
 documents_bp = Blueprint('documents', __name__, url_prefix='/api/documents')
@@ -10,7 +10,7 @@ def create_documents(course_id):
         return make_response(jsonify(PDF_FILE_ERROR), 400)
     
     file = request.files['file']
-    docs = get_documents(file)
+    docs = pickle_document(file)
 
     save_documents(docs, course_id)
 
