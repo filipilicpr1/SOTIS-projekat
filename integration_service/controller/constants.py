@@ -7,7 +7,7 @@ SUCCESS_RESPONSE = {
 }
 
 UNDETECTED_COURSE_ERROR = {
-    'result' : 'Cours does not exists'
+    'result' : 'Course does not exists'
 }
 
 ERROR_RESPONSE = {
