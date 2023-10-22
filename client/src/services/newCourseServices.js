@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export const SendPDFFileForCourse = async(pdfFile)=>{
+export const SendPDFFileForCourse = async(pdfFile, courseId)=>{
   
   const config = {
     headers : {
@@ -8,6 +8,9 @@ export const SendPDFFileForCourse = async(pdfFile)=>{
     }
   };
 
-  return await axios.post(`${process.env.REACT_APP_API_URL}api/newcourse/addpdf`,pdfFile,config);
+  return await axios.post(`${process.env.REACT_APP_API_URL}api/newcourse/${courseId}/add-pdf`,pdfFile,config);
 }
 
+export const GetAnswer = async (data) => {
+  return await axios.get(`${process.env.REACT_APP_API_URL}api/newcourse/${data.courseId}/answer?question=${data.question}`);
+};
