@@ -1,7 +1,7 @@
 from flask import jsonify, Blueprint,request
-from services import new_course_services
+from services import course_services
 
-bp = Blueprint('newcourse', __name__, url_prefix='/api/newcourse')
+bp = Blueprint('course', __name__, url_prefix='/api/course')
 
 @bp.route('/<course_id>/add-pdf', methods=["POST"])
 def add_new_pdf(course_id):
@@ -15,7 +15,7 @@ def add_new_pdf(course_id):
     if pdf_file.filename == '':
         return jsonify({"result":"No selected file"}),400
     
-    new_course_services.upload_new_pdf_and_send_to_service(pdf_file, course_id)
+    course_services.upload_new_pdf_and_send_to_service(pdf_file, course_id)
     
     return jsonify({"result":"OK"}),200
 
@@ -25,6 +25,6 @@ def answer_question(course_id):
 
     # TODO: validate course
 
-    response, status_code = new_course_services.get_answer_from_service(course_id, question)
+    response, status_code = course_services.get_answer_from_service(course_id, question)
 
     return response, status_code
