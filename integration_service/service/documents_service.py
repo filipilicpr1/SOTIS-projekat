@@ -30,8 +30,8 @@ def save_documents(docs, name):
         f.write(docs)
         
 def get_document(name):
-    if os.path.exists(f'{name}.pickle'):
-        with open(f"{name}.pickle","rb") as f:
+    if os.path.exists(f'{name}.pkl'):
+        with open(f"{name}.pkl","rb") as f:
             VectoreStore=pickle.load(f)
         return VectoreStore
     return None
