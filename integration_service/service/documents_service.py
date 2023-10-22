@@ -4,8 +4,9 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores.faiss import FAISS
 from .constants import CHUNK_SIZE, CHUNK_OVERLAP
 import pickle
+import os
 
-def get_documents(pdf_file):
+def pickle_document(pdf_file):
     pdf_reader = PdfReader(pdf_file)
 
     text = ""
@@ -27,3 +28,10 @@ def get_documents(pdf_file):
 def save_documents(docs, name):
     with open(f"{name}.pkl", "wb") as f:
         f.write(docs)
+        
+def get_document(name):
+    if os.path.exists(f'{name}.pickle'):
+        with open(f"{name}.pickle","rb") as f:
+            VectoreStore=pickle.load(f)
+        return VectoreStore
+    return None

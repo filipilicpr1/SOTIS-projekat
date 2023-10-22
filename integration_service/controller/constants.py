@@ -5,3 +5,12 @@ PDF_FILE_ERROR = {
 SUCCESS_RESPONSE = {
     'result' : 'success'
 }
+
+UNDETECTED_COURSE_ERROR = {
+    'result' : 'Cours does not exists'
+}
+
+ERROR_RESPONSE = {
+    'result':'error'
+}
+
