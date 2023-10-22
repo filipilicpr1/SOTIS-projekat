@@ -13,4 +13,4 @@ def upload_new_pdf_and_send_to_service(pdf_file, course_id):
 def get_answer_from_service(course_id, question):
     response = requests.get(f'{PYTHON_SERVICE_API_URI}/chat/course/{course_id}?question={question}')
     
-    return response.json, response.status_code
+    return response.json(), response.status_code
