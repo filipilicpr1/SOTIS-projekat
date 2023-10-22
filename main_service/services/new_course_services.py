@@ -8,7 +8,4 @@ def upload_new_pdf_and_send_to_service(pdf_file):
         'file' : pdf_file
     }
 
-    r = requests.post(f'{PYTHON_SERVICE_API_URI}', files=files)
-    
-    with open(f'test_name.pkl', "wb") as f:
-        f.write(r.content)
+    requests.post(f'{PYTHON_SERVICE_API_URI}/course/test_name', files=files)

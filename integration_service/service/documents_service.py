@@ -23,3 +23,7 @@ def get_documents(pdf_file):
     VectorStore = FAISS.from_texts(chunks, embedding=embeddings)
     
     return pickle.dumps(VectorStore)
+
+def save_documents(docs, name):
+    with open(f"{name}.pkl", "wb") as f:
+        f.write(docs)
