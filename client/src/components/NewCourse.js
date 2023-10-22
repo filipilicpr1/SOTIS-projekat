@@ -4,6 +4,7 @@ import { SendPDFFileForCourse, GetAnswer } from "../services/newCourseServices";
 export default function NewCourse(){
     const [courseId, setCourseId] = useState();
     const questionRef = useRef();
+    const answerRef = useRef();
     
     const handleFileChange = async (e) => {
         const data = new FormData();
@@ -31,7 +32,7 @@ export default function NewCourse(){
         }
 
         const response = await GetAnswer(data);
-        console.log(response)
+        answerRef.current.value = response.data;
     }
 
     return(
@@ -41,6 +42,8 @@ export default function NewCourse(){
             <br/>
             <input type="text" name="question" ref={questionRef}/>
             <button onClick={clickHandler}>ASK QUESTION</button>
+            <br/>
+            <textarea ref={answerRef} />
         </div>
     );
 }
