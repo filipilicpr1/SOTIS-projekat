@@ -1,10 +1,11 @@
-from flask import Flask
-from flask_cors import CORS
-from controllers import course_controller
+from controllers import course_controller, users_controller
+from config import app
+from initialize import initialize_app
 
-app = Flask(__name__)
-CORS(app)
 app.register_blueprint(course_controller.bp)
+app.register_blueprint(users_controller.bp)
+
+initialize_app()
 
 if __name__ == "__main__":
     app.run(port=5001)
