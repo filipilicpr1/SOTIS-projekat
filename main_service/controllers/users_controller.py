@@ -1,8 +1,8 @@
 from flask import request, jsonify, Blueprint
 from models.user import UserSchema
 from commands.user_commands import create_user
-from services.users_service import validate_user_fields
-from config import db
+from services.users_service import validate_user_fields, validate_login
+from flask_jwt_extended import create_access_token
 
 bp = Blueprint('users', __name__, url_prefix='/api/users')
 
@@ -21,3 +21,15 @@ def register_user():
     
     schema = UserSchema(many=False)
     return jsonify(schema.dump(user)), 201
+
+@bp.route('/login', methods=['POST'])
+def login():
+    email = request.json['email']
+    password = request.json['password']
+
+    login_is_valid, message = validate_login(email, password)
+    if not login_is_valid:
+        return jsonify({ "error" : message }), 400
+
+    access_token = create_access_token(identity=email)
+    return jsonify(access_token=access_token), 200
