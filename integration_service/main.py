@@ -1,10 +1,10 @@
 from flask import Flask
 from controller.documents_controller import documents_bp
 from controller.chat_controller import chat_bp
-from database.config import db
+from database.config import db,DATABASE_URI
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:password@localhost:5432/postgres'
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
 
 db.init_app(app)
 
