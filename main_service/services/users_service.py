@@ -1,6 +1,7 @@
 from queries.user_queries import get_user_by_email
 from werkzeug.security import check_password_hash
 from .constants import email_regex
+from models.user import UserType
 import re
 
 def validate_user_fields(first_name, last_name, email, password):
@@ -37,3 +38,7 @@ def validate_login(email, password):
         return False, "Incorrect password"
     
     return True, "Success"
+
+def validate_admin(email):
+    user = get_user_by_email(email)
+    return user is None or user.type == UserType.admin
