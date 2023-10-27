@@ -1,4 +1,4 @@
-from queries.user_queries import get_user_by_email
+from queries.user_queries import get_user_by_email, get_user_by_id
 from werkzeug.security import check_password_hash
 from .constants import email_regex
 from models.user import UserType
@@ -39,6 +39,6 @@ def validate_login(email, password):
     
     return True, "Success"
 
-def validate_admin(email):
-    user = get_user_by_email(email)
+def validate_admin(id):
+    user = get_user_by_id(id)
     return user is None or user.type == UserType.admin
