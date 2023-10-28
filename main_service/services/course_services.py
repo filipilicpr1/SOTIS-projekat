@@ -29,9 +29,6 @@ def is_pdf_valid(pdf_file):
     if pdf_file.filename == '':
         return False
     
-    if does_pdf_already_exists_in_same_course(pdf_file.filename) : 
-        return False
-    
     return True
     
     
