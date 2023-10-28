@@ -26,7 +26,7 @@ def add_new_course():
         
         upload_new_pdf_and_send_to_service(pdf_file, get_course_id_from_title(title))
         
-        return jsonify({"result":"OK"}),200
+        return jsonify({"result":"OK"}),201
     
     return jsonify({'result':'ERROR'}),400
 

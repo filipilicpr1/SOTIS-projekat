@@ -1,7 +1,6 @@
 import requests
 from decouple import config
-from queries.course_queries import does_course_already_exists
-from queries.pdf_file_queries import does_pdf_already_exists
+from queries.pdf_file_queries import does_pdf_already_exists_in_same_course
 
 PYTHON_SERVICE_API_URI = config('PYTHON_SERVICE_API_URI')
 
@@ -30,7 +29,7 @@ def is_pdf_valid(pdf_file):
     if pdf_file.filename == '':
         return False
     
-    if does_pdf_already_exists(pdf_file.filename) : 
+    if does_pdf_already_exists_in_same_course(pdf_file.filename) : 
         return False
     
     return True

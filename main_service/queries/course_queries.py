@@ -14,7 +14,3 @@ def get_course_id_from_title(title) :
         return course[0].id
     
     return None
-
-def get_all():
-    courses=Course.query.all()
-    print(courses)
