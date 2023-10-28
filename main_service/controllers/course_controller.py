@@ -20,9 +20,8 @@ def add_new_course():
     pdf_data=pdf_file.read()
     pdf_file.seek(0)
 
-    if is_course_valid(title,description) and is_pdf_valid(pdf_file) :
-        if does_course_already_exists(title) == False :
-            create_new_course(title,description)
+    if is_course_valid(title,description) and is_pdf_valid(pdf_file) and not(does_course_already_exists(title)) :
+        create_new_course(title,description)
         
         save_pdf_file_for_course(pdf_data,pdf_file.filename,get_course_id_from_title(title))
         
