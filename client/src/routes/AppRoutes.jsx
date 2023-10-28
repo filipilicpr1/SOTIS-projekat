@@ -5,6 +5,7 @@ import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import AppLayout from "../layouts/AppLayout";
 import { useSelector } from "react-redux";
+import NewCoursePage from "../pages/NewCoursePage";
 
 const AppRoutes = () => {
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
@@ -24,6 +25,7 @@ const AppRoutes = () => {
           <Route element={<AppLayout />}>
             <Route path="/" element={<HomePage />} />
             {isAdmin && <Route path="/register" element={<RegisterPage />} />}
+            <Route path="/new-course" element={<NewCoursePage />} />
             <Route path="*" element={<Navigate replace to={"/"} />} />
           </Route>
         )}

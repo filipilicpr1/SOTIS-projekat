@@ -5,14 +5,13 @@ import StyledButton from "../components/UI/Styled/StyledButton";
 import { useDispatch } from "react-redux";
 import { logout } from "../store/userSlice";
 import { useSelector } from "react-redux";
-import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import { useNavigate } from "react-router-dom";
+import Navigation from "../components/UI/Navigation/Navigation";
 
 const AppLayout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.user);
-  const isAdmin = user && user.type === "admin";
   const text =
     user === null
       ? "Learn Online"
@@ -20,11 +19,7 @@ const AppLayout = () => {
 
   const clickHandler = () => {
     dispatch(logout());
-    navigate("/login")
-  };
-
-  const iconClickHandler = () => {
-    navigate("/register");
+    navigate("/login");
   };
 
   return (
@@ -38,6 +33,7 @@ const AppLayout = () => {
                   <Logo text={text} />
                 </Toolbar>
               </Box>
+              <Navigation />
               <Box
                 sx={{
                   display: "flex",
@@ -59,18 +55,6 @@ const AppLayout = () => {
                 >
                   LOGOUT
                 </StyledButton>
-                {isAdmin && (
-                  <PersonAddAltIcon
-                    onClick={iconClickHandler}
-                    style={{ color: "white" }}
-                    sx={{
-                      mt: 2.5,
-                      mr: 4,
-                      transform: "scale(1.8)",
-                      cursor: "pointer",
-                    }}
-                  />
-                )}
               </Box>
             </Box>
           </Toolbar>
