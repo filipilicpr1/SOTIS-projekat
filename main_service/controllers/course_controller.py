@@ -3,10 +3,12 @@ from services.course_services import upload_new_pdf_and_send_to_service,is_cours
 from commands.course_commands import create_new_course
 from commands.pdf_commands import save_pdf_file_for_course
 from queries.course_queries import get_course_id_from_title,does_course_already_exists
+from flask_jwt_extended import jwt_required
 
 bp = Blueprint('course', __name__, url_prefix='/api/course')
 
-@bp.route('/add-course', methods=["POST"])
+@jwt_required()
+@bp.route('', methods=["POST"])
 def add_new_course():
     title = request.form.get('title')
     description = request.form.get('description')
