@@ -1,5 +1,6 @@
 import requests
 from decouple import config
+from queries.pdf_file_queries import does_pdf_already_exists_in_same_course
 
 PYTHON_SERVICE_API_URI = config('PYTHON_SERVICE_API_URI')
 
@@ -14,3 +15,24 @@ def get_answer_from_service(course_id, question):
     response = requests.get(f'{PYTHON_SERVICE_API_URI}/chat/course/{course_id}?question={question}')
     
     return response.json(), response.status_code
+
+def is_course_valid(title,description):
+    if title is None or title == "" :
+        return False
+    
+    if description is None or description == "" :
+        return False
+    
+    return True
+
+def is_pdf_valid(pdf_file):
+    if pdf_file.filename == '':
+        return False
+    
+    if does_pdf_already_exists_in_same_course(pdf_file.filename) : 
+        return False
+    
+    return True
+    
+    
+    

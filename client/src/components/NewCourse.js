@@ -12,7 +12,7 @@ export default function NewCourse(){
 
         data.append('pdfFile', file);
         data.append('filename', "file");
-        
+
         const name = file.name.split('.')[0];
         setCourseId(name);
 

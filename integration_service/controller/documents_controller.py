@@ -10,6 +10,7 @@ def create_documents(course_id):
         return make_response(jsonify(PDF_FILE_ERROR), 400)
     
     file = request.files['file']
+    
     docs = pickle_document(file,course_id)
 
     save_documents(docs, course_id)
