@@ -32,7 +32,7 @@ const LoginForm = () => {
   const passwordChangeHandler = (
     event
   ) => {
-    setIsPasswordValid(event.target.value.trim().length >= 0);
+    setIsPasswordValid(event.target.value.trim().length > 0);
   };
 
   const passwordBlurHandler = (event) => {
