@@ -10,7 +10,3 @@ class Course(db.Model):
     def __init__(self,id,vectore_store):
         self.id = id
         self.vectore_store = vectore_store
-    
-class CourseSchema(Schema):
-    id = fields.Integer()
-    vectore_store = fields.Raw()
