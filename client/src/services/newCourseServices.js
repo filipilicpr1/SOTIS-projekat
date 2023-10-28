@@ -8,9 +8,9 @@ export const SendPDFFileForCourse = async(pdfFile, courseId)=>{
     }
   };
 
-  return await axios.post(`${process.env.REACT_APP_API_URL}api/course/${courseId}/add-pdf`,pdfFile,config);
+  return await axios.post(`${process.env.REACT_APP_API_URL}/course/${courseId}/add-pdf`,pdfFile,config);
 }
 
 export const GetAnswer = async (data) => {
-  return await axios.get(`${process.env.REACT_APP_API_URL}api/course/${data.courseId}/answer?question=${data.question}`);
+  return await axios.get(`${process.env.REACT_APP_API_URL}/course/${data.courseId}/answer?question=${data.question}`);
 };
