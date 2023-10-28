@@ -14,3 +14,4 @@ export const SendPDFFileForCourse = async(pdfFile, courseId)=>{
 export const GetAnswer = async (data) => {
   return await axios.get(`${process.env.REACT_APP_API_URL}/course/${data.courseId}/answer?question=${data.question}`);
 };
+

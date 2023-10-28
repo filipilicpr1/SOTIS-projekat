@@ -1,5 +1,4 @@
 from database.config import db
-from marshmallow import Schema, fields
 
 class Course(db.Model):
     __tablename__='CourseMaterial'
