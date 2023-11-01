@@ -1,6 +1,9 @@
 import requests
 from decouple import config
 from queries.pdf_file_queries import does_pdf_already_exists_in_same_course
+from queries.course_queries import get_courses_paginated, get_total_pages
+from models.course import CourseSchema
+from utils.utils import get_correct_page
 
 PYTHON_SERVICE_API_URI = config('PYTHON_SERVICE_API_URI')
 
@@ -31,5 +34,16 @@ def is_pdf_valid(pdf_file):
     
     return True
     
+def get_paginated_response(page):
+    page = get_correct_page(page)
     
-    
+    courses = get_courses_paginated(page)
+
+    schema = CourseSchema(many=True)
+    response = {
+        "items" : schema.dump(courses),
+        "page" : page,
+        "total_pages" : get_total_pages()
+    }
+
+    return response

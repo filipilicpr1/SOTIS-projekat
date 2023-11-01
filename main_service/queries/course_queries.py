@@ -1,5 +1,7 @@
 from config import db
 from models.course import Course
+from .constants import courses_per_page
+from math import ceil
 
 def does_course_already_exists(title) :
     course = Course.query.filter_by(title=title).all()
@@ -14,3 +16,9 @@ def get_course_id_from_title(title) :
         return course[0].id
     
     return None
+
+def get_courses_paginated(page):
+    return Course.query.order_by(Course.title).paginate(page = page, per_page = courses_per_page).items
+
+def get_total_pages():
+    return ceil(Course.query.count() / courses_per_page)
