@@ -10,3 +10,7 @@ export const CreateNewCourse = async (data) => {
 
   return await axiosClient.post(`${API}/course`, data, config);
 };
+
+export const GetAllCourses = async (query) => {
+  return await axiosClient.get(`${API}/course${query}`);
+};
