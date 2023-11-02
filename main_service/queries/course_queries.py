@@ -10,6 +10,13 @@ def does_course_already_exists(title) :
     
     return False
 
+def does_course_exists(id) :
+    course = Course.query.get(id)
+    if course is None :
+        return False
+    
+    return True
+
 def get_course_id_from_title(title) : 
     course = Course.query.filter_by(title=title).all()
     if len(course) != 0:

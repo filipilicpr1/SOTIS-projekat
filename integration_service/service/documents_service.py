@@ -5,10 +5,10 @@ from langchain.vectorstores.faiss import FAISS
 from .constants import CHUNK_SIZE, CHUNK_OVERLAP
 import pickle
 import os
-from repository.course_repository import get_vectore_store_for_id,save_new_course_document,update_course
+from repository.course_repository import get_course_from_id,save_new_course_document,update_course
 from database.models.course import Course
 
-def pickle_document(pdf_file,course_id):
+def create_chunks(pdf_file):
     pdf_reader = PdfReader(pdf_file)
 
     text = ""
@@ -22,9 +22,13 @@ def pickle_document(pdf_file,course_id):
     )
 
     chunks = text_splitter.split_text(text)
+    return chunks
+
+def pickle_document(pdf_file,course_id):
+    chunks = create_chunks(pdf_file)
     embeddings = OpenAIEmbeddings()
     
-    course = get_vectore_store_for_id(course_id)
+    course = get_course_from_id(course_id)
     
     if course != None :
         VectorStore = pickle.loads(course.vectore_store)
@@ -37,7 +41,7 @@ def pickle_document(pdf_file,course_id):
     return pickle.dumps(VectorStore)
 
 def save_documents(docs, name):
-    course = get_vectore_store_for_id(name)
+    course = get_course_from_id(name)
     
     if course is None :
         course=Course(name,docs)
@@ -45,9 +49,16 @@ def save_documents(docs, name):
         return;
     
     update_course(course,docs)
-        
+
+def update_course_materials(docs, course_id):
+    course = get_course_from_id(course_id)
+    
+    if course is not None :
+        update_course(course,docs)
+
+      
 def get_document(name):
-    document = get_vectore_store_for_id(name)
+    document = get_course_from_id(name)
     
     if document is None :
         return None
