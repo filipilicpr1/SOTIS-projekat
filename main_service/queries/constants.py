@@ -1,0 +1,1 @@
+courses_per_page = 4

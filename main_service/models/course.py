@@ -1,4 +1,5 @@
 from config import db
+from marshmallow import Schema, fields
 
 class Course(db.Model):
     __tablename__ = 'Courses_DB'
@@ -12,3 +13,7 @@ class Course(db.Model):
         self.description=description
 
 
+class CourseSchema(Schema):
+    id = fields.Integer()
+    title = fields.Str()
+    description = fields.Str()

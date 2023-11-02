@@ -1,11 +1,18 @@
 from flask import jsonify, Blueprint,request
-from services.course_services import upload_new_pdf_and_send_to_service,is_course_valid,get_answer_from_service,is_pdf_valid
+from services.course_services import upload_new_pdf_and_send_to_service,is_course_valid,get_answer_from_service,is_pdf_valid, get_paginated_response
 from commands.course_commands import create_new_course
 from commands.pdf_commands import save_pdf_file_for_course
 from queries.course_queries import get_course_id_from_title,does_course_already_exists
 from flask_jwt_extended import jwt_required
 
 bp = Blueprint('course', __name__, url_prefix='/api/course')
+
+@bp.route('', methods=["GET"])
+def get_courses():
+    page = request.args.get('page')
+    
+    response = get_paginated_response(page)
+    return jsonify(response),200
 
 @jwt_required()
 @bp.route('', methods=["POST"])
