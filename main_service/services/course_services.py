@@ -14,6 +14,13 @@ def upload_new_pdf_and_send_to_service(pdf_file, course_id):
 
     requests.post(f'{PYTHON_SERVICE_API_URI}/documents/course/{course_id}', files=files)
 
+def send_to_service_pdf_file(pdf_file,course_id):
+    files = {
+        'file' : pdf_file
+    }
+
+    requests.put(f'{PYTHON_SERVICE_API_URI}/documents/course/{course_id}', files=files)
+
 def get_answer_from_service(course_id, question):
     response = requests.get(f'{PYTHON_SERVICE_API_URI}/chat/course/{course_id}?question={question}')
     

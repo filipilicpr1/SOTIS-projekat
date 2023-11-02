@@ -45,7 +45,14 @@ def save_documents(docs, name):
         return;
     
     update_course(course,docs)
-        
+
+def update_course_materials(docs, course_id):
+    course = get_vectore_store_for_id(course_id)
+    
+    if course is not None :
+        update_course(course,docs)
+
+      
 def get_document(name):
     document = get_vectore_store_for_id(name)
     

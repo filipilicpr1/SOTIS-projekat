@@ -1,8 +1,9 @@
 from flask import jsonify, Blueprint,request
-from services.course_services import upload_new_pdf_and_send_to_service,is_course_valid,get_answer_from_service,is_pdf_valid, get_paginated_response
+from services.course_services import upload_new_pdf_and_send_to_service,is_course_valid,get_answer_from_service,is_pdf_valid, get_paginated_response, send_to_service_pdf_file
 from commands.course_commands import create_new_course
 from commands.pdf_commands import save_pdf_file_for_course
 from queries.course_queries import get_course_id_from_title,does_course_already_exists
+from queries.pdf_file_queries import does_pdf_already_exists_in_same_course
 from flask_jwt_extended import jwt_required
 
 bp = Blueprint('course', __name__, url_prefix='/api/course')
@@ -37,6 +38,29 @@ def add_new_course():
         return jsonify({"result":"OK"}),201
     
     return jsonify({'result':'ERROR'}),400
+
+@bp.route('/<course_id>/', methods=["PUT"])
+def add_new_pdf_to_course(course_id):
+    if 'pdfFile' not in request.files:
+        return  jsonify({"result":"No file part"}),400
+
+    pdf_file = request.files['pdfFile']
+    
+    if not is_pdf_valid(pdf_file) :
+        return jsonify({"result":"file is unavailable"}),400
+    
+    if does_pdf_already_exists_in_same_course(pdf_file.filename,course_id) :
+        return jsonify({"result":"This file already exists"}),400
+    
+    pdf_data=pdf_file.read()
+    pdf_file.seek(0)
+    
+    send_to_service_pdf_file(pdf_file, course_id)
+    
+    save_pdf_file_for_course(pdf_data,pdf_file.filename,course_id)
+    
+    return jsonify({"result":"OK"}),200
+
 
 @bp.route('/<course_id>/add-pdf', methods=["POST"])
 def add_new_pdf(course_id):

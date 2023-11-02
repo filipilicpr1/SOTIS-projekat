@@ -9,5 +9,5 @@ def save_new_course_document(course):
     db.session.commit()
     
 def update_course(course,VectoreStore):
-    course.vectore_store=VectoreStore
+    course.vectore_store+=VectoreStore
     db.session.commit()
