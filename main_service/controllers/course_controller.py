@@ -2,7 +2,7 @@ from flask import jsonify, Blueprint,request
 from services.course_services import upload_new_pdf_and_send_to_service,is_course_valid,get_answer_from_service,is_pdf_valid, get_paginated_response, send_to_service_pdf_file
 from commands.course_commands import create_new_course
 from commands.pdf_commands import save_pdf_file_for_course
-from queries.course_queries import get_course_id_from_title,does_course_already_exists
+from queries.course_queries import get_course_id_from_title,does_course_already_exists,does_course_exists
 from queries.pdf_file_queries import does_pdf_already_exists_in_same_course
 from flask_jwt_extended import jwt_required
 
@@ -39,8 +39,12 @@ def add_new_course():
     
     return jsonify({'result':'ERROR'}),400
 
+@jwt_required()
 @bp.route('/<course_id>/', methods=["PUT"])
 def add_new_pdf_to_course(course_id):
+    if not does_course_exists(course_id) :
+        return  jsonify({"result":"Course doesn not exists"}),400
+    
     if 'pdfFile' not in request.files:
         return  jsonify({"result":"No file part"}),400
 
