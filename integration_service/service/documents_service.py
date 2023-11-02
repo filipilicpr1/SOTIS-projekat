@@ -25,19 +25,7 @@ def create_chunks(pdf_file):
     return chunks
 
 def pickle_document(pdf_file,course_id):
-    pdf_reader = PdfReader(pdf_file)
-
-    text = ""
-    for page in pdf_reader.pages:
-        text += page.extract_text()
-
-    text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size = CHUNK_SIZE,
-        chunk_overlap = CHUNK_OVERLAP,
-        length_function = len
-    )
-
-    chunks = text_splitter.split_text(text)
+    chunks = create_chunks(pdf_file)
     embeddings = OpenAIEmbeddings()
     
     course = get_course_from_id(course_id)
