@@ -21,7 +21,7 @@ export const createNewCourse = createAsyncThunk(
       const response = await CreateNewCourse(data);
       return thunkApi.fulfillWithValue(response.data);
     } catch (error) {
-      return thunkApi.rejectWithValue(error.response.data.error);
+      return thunkApi.rejectWithValue(error.response.data.result);
     }
   }
 );
@@ -33,7 +33,7 @@ export const getAllCoursesAction = createAsyncThunk(
       const response = await GetAllCourses(query);
       return thunkApi.fulfillWithValue(response.data);
     } catch (error) {
-      return thunkApi.rejectWithValue(error.response.data.error);
+      return thunkApi.rejectWithValue(error.response.data.result);
     }
   }
 );
@@ -45,7 +45,7 @@ export const addPdfToCourseAction = createAsyncThunk(
       const response = await AddPdfToCourse(data.id, data.data);
       return thunkApi.fulfillWithValue(response.data);
     } catch (error) {
-      return thunkApi.rejectWithValue(error.response.data.error);
+      return thunkApi.rejectWithValue(error.response.data.result);
     }
   }
 );

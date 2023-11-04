@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Card,
   Divider,
@@ -55,6 +55,8 @@ const DetailedCourse = () => {
   const pdfUploader = useRef();
   const params = useParams();
   const courseId = params.courseId;
+  const [requestSent, setRequestSent] = useState(false);
+  const apiState = useSelector((state) => state.course.apiState);
 
   const pdfChangeHandler = (event) => {
     const file = event.target.files[0];
@@ -79,7 +81,21 @@ const DetailedCourse = () => {
     }
 
     dispatch(addPdfToCourseAction(requestData));
+    setRequestSent(true);
   };
+
+  useEffect(() => {
+    if (!requestSent) {
+      return;
+    }
+
+    if (!(apiState === "COMPLETED")) {
+      return;
+    }
+
+    setPdfName("");
+    setPdfUploaded(false);
+  }, [apiState, requestSent, dispatch]);
 
   return (
     <Grow in={true}>
