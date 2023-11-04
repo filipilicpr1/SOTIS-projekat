@@ -29,11 +29,11 @@ def add_new_course():
     pdf_file.seek(0)
 
     if is_course_valid(title,description) and is_pdf_valid(pdf_file) and not(does_course_already_exists(title)) :
-        create_new_course(title,description)
+        course_id = create_new_course(title,description)
         
-        save_pdf_file_for_course(pdf_data,pdf_file.filename,get_course_id_from_title(title))
+        save_pdf_file_for_course(pdf_data,pdf_file.filename, course_id)
         
-        upload_new_pdf_and_send_to_service(pdf_file, get_course_id_from_title(title))
+        upload_new_pdf_and_send_to_service(pdf_file, course_id)
         
         return jsonify({"result":"OK"}),201
     

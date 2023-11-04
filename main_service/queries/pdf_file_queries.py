@@ -2,7 +2,7 @@ from models.pdf_file import PDFFile
 
 def does_pdf_already_exists_in_same_course(title,course_id):
     pdfs = PDFFile.query.filter_by(title=title).all()
-    if pdfs is not None and any(pdf_file.course_id == course_id for pdf_file in pdfs) :
+    if pdfs is not None and any(pdf_file.course_id == int(course_id) for pdf_file in pdfs) :
         return True
     
     return False
