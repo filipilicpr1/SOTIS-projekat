@@ -13,3 +13,6 @@ def check_if_pdf_file_with_course_id_exists(pdfs,course_id) :
             return True
 
     return False
+
+def get_pdf_file_by_id(id):
+    return PDFFile.query.get(id)
