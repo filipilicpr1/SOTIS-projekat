@@ -5,13 +5,14 @@ import { useSelector } from "react-redux";
 
 const DetailedCoursePage = () => {
   const courseApiState = useSelector((state) => state.course.apiState);
+  const pdfApiState = useSelector((state) => state.pdf.apiState);
   return (
     <>
       <Card sx={{ display: "flex", flexDirection: "row", height: "700px" }}>
         <DetailedCourse />
         <Card sx={{ border: "1px solid green", width: "75%", m: 2 }}></Card>
       </Card>
-      <LoadingModal show={courseApiState === "PENDING"} />
+      <LoadingModal show={courseApiState === "PENDING" || pdfApiState === "PENDING"} />
     </>
   );
 };
