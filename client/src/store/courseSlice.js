@@ -1,5 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { CreateNewCourse, GetAllCourses } from "../services/CourseServices";
+import {
+  CreateNewCourse,
+  GetAllCourses,
+  AddPdfToCourse,
+} from "../services/CourseServices";
 import { toast } from "react-toastify";
 import { defaultErrorMessage } from "../constants/Constants";
 
@@ -27,6 +31,18 @@ export const getAllCoursesAction = createAsyncThunk(
   async (query, thunkApi) => {
     try {
       const response = await GetAllCourses(query);
+      return thunkApi.fulfillWithValue(response.data);
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.response.data.error);
+    }
+  }
+);
+
+export const addPdfToCourseAction = createAsyncThunk(
+  "courses/update",
+  async (data, thunkApi) => {
+    try {
+      const response = await AddPdfToCourse(data.id, data.data);
       return thunkApi.fulfillWithValue(response.data);
     } catch (error) {
       return thunkApi.rejectWithValue(error.response.data.error);
@@ -88,6 +104,33 @@ const courseSlice = createSlice({
       state.totalPages = action.payload.total_pages;
     });
     builder.addCase(getAllCoursesAction.rejected, (state, action) => {
+      state.apiState = "REJECTED";
+      let error = defaultErrorMessage;
+      if (typeof action.payload === "string") {
+        error = action.payload;
+      }
+
+      toast.error(error, {
+        position: "top-center",
+        autoClose: 2500,
+        closeOnClick: true,
+        pauseOnHover: false,
+      });
+    });
+
+    builder.addCase(addPdfToCourseAction.pending, (state) => {
+      state.apiState = "PENDING";
+    });
+    builder.addCase(addPdfToCourseAction.fulfilled, (state) => {
+      state.apiState = "COMPLETED";
+      toast.success("Course material added successfully.", {
+        position: "top-center",
+        autoClose: 2500,
+        closeOnClick: true,
+        pauseOnHover: false,
+      });
+    });
+    builder.addCase(addPdfToCourseAction.rejected, (state, action) => {
       state.apiState = "REJECTED";
       let error = defaultErrorMessage;
       if (typeof action.payload === "string") {
