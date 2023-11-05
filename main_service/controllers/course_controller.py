@@ -1,12 +1,35 @@
 from flask import jsonify, Blueprint,request
-from services.course_services import upload_new_pdf_and_send_to_service,is_course_valid,get_answer_from_service,is_pdf_valid, get_paginated_response, send_to_service_pdf_file
+from services.course_services import upload_new_pdf_and_send_to_service,is_course_valid,get_answer_from_service,is_pdf_valid, get_paginated_response, send_to_service_pdf_file, prepare_course_schema
+from services.document_service import prepare_pdf_files,prepare_pdf_json_object
 from commands.course_commands import create_new_course
 from commands.pdf_commands import save_pdf_file_for_course
-from queries.course_queries import get_course_id_from_title,does_course_already_exists,does_course_exists
+from queries.course_queries import get_course,does_course_already_exists,does_course_exists
 from queries.pdf_file_queries import does_pdf_already_exists_in_same_course
 from flask_jwt_extended import jwt_required
+from models.result_class import CoursePDFsSchema,CoursePDFs
 
 bp = Blueprint('course', __name__, url_prefix='/api/course')
+
+@bp.route('/<course_id>/', methods=["GET"])
+def get_course_with_course_id(course_id):
+    if not does_course_exists(course_id) :
+        return jsonify({'result':"Course with that id doesn't exists"})
+    
+    course = get_course(course_id)
+    
+    pdfs = prepare_pdf_files(course.pdfs)
+    
+    pdfs_for_course_json = prepare_pdf_json_object(pdfs)
+    
+    course_json = prepare_course_schema(course)
+    
+    courses_pdfs = CoursePDFs(pdfs_for_course_json)
+    
+    courses_pdfs_schema = CoursePDFsSchema()
+    
+    courses_pdfs_json = courses_pdfs_schema.dump(courses_pdfs)
+    
+    return jsonify(course_json,courses_pdfs_json),200
 
 @bp.route('', methods=["GET"])
 def get_courses():
@@ -29,11 +52,11 @@ def add_new_course():
     pdf_file.seek(0)
 
     if is_course_valid(title,description) and is_pdf_valid(pdf_file) and not(does_course_already_exists(title)) :
-        course_id = create_new_course(title,description)
+        new_course = create_new_course(title,description)
         
-        save_pdf_file_for_course(pdf_data,pdf_file.filename, course_id)
+        save_pdf_file_for_course(pdf_data,pdf_file.filename,new_course)
         
-        upload_new_pdf_and_send_to_service(pdf_file, course_id)
+        upload_new_pdf_and_send_to_service(pdf_file,new_course.id)
         
         return jsonify({"result":"OK"}),201
     
@@ -53,7 +76,9 @@ def add_new_pdf_to_course(course_id):
     if not is_pdf_valid(pdf_file) :
         return jsonify({"result":"file is unavailable"}),400
     
-    if does_pdf_already_exists_in_same_course(pdf_file.filename,course_id) :
+    course = get_course(course_id)
+    
+    if does_pdf_already_exists_in_same_course(pdf_file.filename,course) :
         return jsonify({"result":"This file already exists"}),400
     
     pdf_data=pdf_file.read()
