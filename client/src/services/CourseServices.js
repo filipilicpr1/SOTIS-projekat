@@ -24,3 +24,7 @@ export const AddPdfToCourse = async (id, data) => {
 
   return await axiosClient.put(`${API}/course/${id}`, data, config);
 };
+
+export const GetCourseById = async (id) => {
+  return await axiosClient.get(`${API}/course/${id}`);
+};

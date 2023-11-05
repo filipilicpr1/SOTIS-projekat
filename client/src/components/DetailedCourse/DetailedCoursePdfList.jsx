@@ -4,7 +4,7 @@ import PdfPreview from "./PdfPreview";
 
 const DetailedCoursePdfList = (props) => {
   const items = props.items.map((item) => (
-    <DetailedCoursePdfItem key={item.id} id={item.id} name={item.name} />
+    <DetailedCoursePdfItem key={item.id} id={item.id} name={item.title} />
   ));
 
   return (
