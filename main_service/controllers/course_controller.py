@@ -6,7 +6,6 @@ from commands.pdf_commands import save_pdf_file_for_course
 from queries.course_queries import get_course,does_course_already_exists,does_course_exists
 from queries.pdf_file_queries import does_pdf_already_exists_in_same_course
 from flask_jwt_extended import jwt_required
-from models.result_class import CoursePDFsSchema,CoursePDFs
 
 bp = Blueprint('course', __name__, url_prefix='/api/course')
 
@@ -23,13 +22,7 @@ def get_course_with_course_id(course_id):
     
     course_json = prepare_course_schema(course)
     
-    courses_pdfs = CoursePDFs(pdfs_for_course_json)
-    
-    courses_pdfs_schema = CoursePDFsSchema()
-    
-    courses_pdfs_json = courses_pdfs_schema.dump(courses_pdfs)
-    
-    return jsonify(course_json,courses_pdfs_json),200
+    return jsonify(course_json,pdfs_for_course_json),200
 
 @bp.route('', methods=["GET"])
 def get_courses():
