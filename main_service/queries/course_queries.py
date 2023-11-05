@@ -2,6 +2,11 @@ from models.course import Course
 from .constants import courses_per_page
 from math import ceil
 
+def get_course(course_id) :
+    course = Course.query.get(course_id)
+    
+    return course
+
 def does_course_already_exists(title) :
     course = Course.query.filter_by(title=title).first()
     if course is None :
@@ -15,13 +20,6 @@ def does_course_exists(id) :
         return False
     
     return True
-
-def get_course_id_from_title(title) : 
-    course = Course.query.filter_by(title=title).first()
-    if course is None :
-        return None
-    
-    return course
 
 def get_courses_paginated(page):
     return Course.query.order_by(Course.title).paginate(page = page, per_page = courses_per_page).items
