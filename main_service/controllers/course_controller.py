@@ -12,7 +12,7 @@ bp = Blueprint('course', __name__, url_prefix='/api/course')
 @bp.route('/<course_id>/', methods=["GET"])
 def get_course_with_course_id(course_id):
     if not does_course_exists(course_id) :
-        return jsonify({'result':"Course with that id doesn't exists"})
+        return jsonify({'result':"Course with that id doesn't exists"}),404
     
     course = get_course(course_id)
     

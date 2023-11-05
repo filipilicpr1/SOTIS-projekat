@@ -1,6 +1,5 @@
 import requests
 from decouple import config
-from queries.pdf_file_queries import does_pdf_already_exists_in_same_course
 from queries.course_queries import get_courses_paginated, get_total_pages
 from models.course import CourseSchema
 from utils.utils import get_correct_page
