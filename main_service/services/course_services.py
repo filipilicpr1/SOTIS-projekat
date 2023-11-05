@@ -54,3 +54,9 @@ def get_paginated_response(page):
     }
 
     return response
+
+def prepare_course_schema(course) :
+    course_schema = CourseSchema()
+    course_json = course_schema.dump(course)
+    
+    return course_json
