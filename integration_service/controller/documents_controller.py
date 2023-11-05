@@ -10,8 +10,9 @@ def create_documents(course_id):
         return make_response(jsonify(PDF_FILE_ERROR), 400)
     
     file = request.files['file']
-    
-    docs = pickle_document(file,course_id)
+    filename = request.args.get('filename')
+
+    docs = pickle_document(file, filename, course_id)
 
     save_documents(docs, course_id)
 
@@ -26,9 +27,10 @@ def add_new_pdf_to_course(course_id):
         return make_response(jsonify(PDF_FILE_ERROR), 400)
     
     file = request.files['file']
+    filename = request.args.get('filename')
     
-    docs = pickle_document(file,course_id)
+    docs = pickle_document(file, filename, course_id)
 
     update_course_materials(docs, course_id)
 
-    return make_response(jsonify(SUCCESS_RESPONSE), 201)
+    return make_response(jsonify(SUCCESS_RESPONSE), 200)

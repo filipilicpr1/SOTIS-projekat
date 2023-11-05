@@ -11,14 +11,16 @@ def upload_new_pdf_and_send_to_service(pdf_file, course_id):
         'file' : pdf_file
     }
 
-    requests.post(f'{PYTHON_SERVICE_API_URI}/documents/course/{course_id}', files=files)
+    response = requests.post(f'{PYTHON_SERVICE_API_URI}/documents/course/{course_id}?filename={pdf_file.filename}', files=files)
+    return response
 
 def send_to_service_pdf_file(pdf_file,course_id):
     files = {
         'file' : pdf_file
     }
 
-    requests.put(f'{PYTHON_SERVICE_API_URI}/documents/course/{course_id}', files=files)
+    response = requests.put(f'{PYTHON_SERVICE_API_URI}/documents/course/{course_id}?filename={pdf_file.filename}', files=files)
+    return response
 
 def get_answer_from_service(course_id, question):
     response = requests.get(f'{PYTHON_SERVICE_API_URI}/chat/course/{course_id}?question={question}')

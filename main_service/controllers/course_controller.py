@@ -1,7 +1,7 @@
 from flask import jsonify, Blueprint,request
 from services.course_services import upload_new_pdf_and_send_to_service,is_course_valid,get_answer_from_service,is_pdf_valid, get_paginated_response, send_to_service_pdf_file, prepare_course_schema
 from services.document_service import prepare_pdf_files,prepare_pdf_json_object
-from commands.course_commands import create_new_course
+from commands.course_commands import create_new_course, delete_course
 from commands.pdf_commands import save_pdf_file_for_course
 from queries.course_queries import get_course,does_course_already_exists,does_course_exists
 from queries.pdf_file_queries import does_pdf_already_exists_in_same_course
@@ -44,16 +44,19 @@ def add_new_course():
     pdf_data=pdf_file.read()
     pdf_file.seek(0)
 
-    if is_course_valid(title,description) and is_pdf_valid(pdf_file) and not(does_course_already_exists(title)) :
-        new_course = create_new_course(title,description)
-        
-        save_pdf_file_for_course(pdf_data,pdf_file.filename,new_course)
-        
-        upload_new_pdf_and_send_to_service(pdf_file,new_course.id)
-        
-        return jsonify({"result":"OK"}),201
+    if not is_course_valid(title, description) or not is_pdf_valid(pdf_file) or does_course_already_exists(title):
+        return jsonify({'result':'ERROR'}),400
+
+    new_course = create_new_course(title, description)
     
-    return jsonify({'result':'ERROR'}),400
+    response = upload_new_pdf_and_send_to_service(pdf_file, new_course.id)
+    if not response.ok:
+        delete_course(new_course)
+        return jsonify({'result':'Error processing pdf file'}), 400
+
+    save_pdf_file_for_course(pdf_data, pdf_file.filename, new_course)
+    
+    return jsonify({"result":"OK"}),201
 
 @jwt_required()
 @bp.route('/<course_id>/', methods=["PUT"])
@@ -77,7 +80,9 @@ def add_new_pdf_to_course(course_id):
     pdf_data=pdf_file.read()
     pdf_file.seek(0)
     
-    send_to_service_pdf_file(pdf_file, course_id)
+    response = send_to_service_pdf_file(pdf_file, course_id)
+    if not response.ok:
+        return jsonify({'result':'Error processing pdf file'}), 400
     
     save_pdf_file_for_course(pdf_data,pdf_file.filename,course)
     

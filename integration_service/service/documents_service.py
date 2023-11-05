@@ -8,10 +8,11 @@ import os
 from repository.course_repository import get_course_from_id,save_new_course_document,update_course
 from database.models.course import Course
 
-def create_chunks(pdf_file):
+def create_chunks(pdf_file, filename):
     pdf_reader = PdfReader(pdf_file)
-
-    text = ""
+    
+    text = "Naredni tekst se odnosi na dokument {document_name}\n".format(document_name = filename)
+    print(text)
     for page in pdf_reader.pages:
         text += page.extract_text()
 
@@ -24,8 +25,8 @@ def create_chunks(pdf_file):
     chunks = text_splitter.split_text(text)
     return chunks
 
-def pickle_document(pdf_file,course_id):
-    chunks = create_chunks(pdf_file)
+def pickle_document(pdf_file, filename, course_id):
+    chunks = create_chunks(pdf_file, filename)
     embeddings = OpenAIEmbeddings()
     
     course = get_course_from_id(course_id)
