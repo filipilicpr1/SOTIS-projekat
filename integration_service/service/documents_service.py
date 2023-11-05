@@ -12,7 +12,6 @@ def create_chunks(pdf_file, filename):
     pdf_reader = PdfReader(pdf_file)
     
     text = "Naredni tekst se odnosi na dokument {document_name}\n".format(document_name = filename)
-    print(text)
     for page in pdf_reader.pages:
         text += page.extract_text()
 
