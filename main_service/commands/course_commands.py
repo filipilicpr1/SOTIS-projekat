@@ -8,3 +8,7 @@ def create_new_course(title,description):
     db.session.commit()
     
     return course
+
+def delete_course(course):
+    db.session.delete(course)
+    db.session.commit()
