@@ -1,11 +1,37 @@
+import { useState, useEffect } from "react";
 import { Typography, Box } from "@mui/material";
 import StyledCard from "../UI/Styled/StyledCard";
 import FileOpenIcon from "@mui/icons-material/FileOpen";
+import { useDispatch, useSelector } from "react-redux";
+import { openModal } from "../../store/pdfSlice";
+import { getPdfByIdAction } from "../../store/pdfSlice";
 
 const DetailedCoursePdfItem = (props) => {
+  const dispatch = useDispatch();
+  const [requestSent, setRequestSent] = useState(false);
+  const apiState = useSelector((state) => state.pdf.apiState);
+  const pdfFile = useSelector((state) => state.pdf.pdfFile);
+
   const clickHandler = () => {
-    console.log("clicked on " + props.name);
+    dispatch(getPdfByIdAction(props.id));
+    setRequestSent(true);
   };
+
+  useEffect(() => {
+    if (!requestSent) {
+      return;
+    }
+
+    if (!(apiState === "COMPLETED")) {
+      return;
+    }
+
+    if (pdfFile === null) {
+      return;
+    }
+
+    dispatch(openModal());
+  }, [apiState, requestSent, dispatch, pdfFile]);
 
   return (
     <Box sx={{ width: "100%" }}>

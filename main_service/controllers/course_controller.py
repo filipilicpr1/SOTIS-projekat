@@ -79,7 +79,7 @@ def add_new_pdf_to_course(course_id):
     
     send_to_service_pdf_file(pdf_file, course_id)
     
-    save_pdf_file_for_course(pdf_data,pdf_file.filename,course_id)
+    save_pdf_file_for_course(pdf_data,pdf_file.filename,course)
     
     return jsonify({"result":"OK"}),200
 

@@ -1,7 +1,12 @@
 import { Grid, Container, CssBaseline, Grow } from "@mui/material";
 import CoursesItem from "./CourseItem";
+import PageTitle from "../UI/Title/PageTitle";
+import { useSelector } from "react-redux";
 
 const CoursesList = (props) => {
+  const apiState = useSelector((state) => state.course.apiState);
+  const courses = useSelector((state) => state.course.allCourses);
+
   const items = props.courses.map((course) => (
     <CoursesItem key={course.id} item={course} />
   ));
@@ -33,6 +38,7 @@ const CoursesList = (props) => {
           </Container>
         </Grow>
       )}
+      {(courses.length === 0 && apiState === "COMPLETED") && <PageTitle title="THERE ARE NO COURSES AVAILABLE" />}
     </>
   );
 };
