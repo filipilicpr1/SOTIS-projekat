@@ -59,7 +59,7 @@ def add_new_course():
     return jsonify({"result":"OK"}),201
 
 @jwt_required()
-@bp.route('/<course_id>/', methods=["PUT"])
+@bp.route('/<course_id>', methods=["PUT"])
 def add_new_pdf_to_course(course_id):
     if not does_course_exists(course_id) :
         return  jsonify({"result":"Course doesn not exists"}),400
