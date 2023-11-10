@@ -1,5 +1,5 @@
 from flask import jsonify, Blueprint,request
-from services.course_services import upload_new_pdf_and_send_to_service,is_course_valid,get_answer_from_service,is_pdf_valid, get_paginated_response, send_to_service_pdf_file, prepare_course_schema
+from services.course_services import upload_new_pdf_and_send_to_service,is_course_valid,is_pdf_valid, get_paginated_response, send_to_service_pdf_file, prepare_course_schema
 from services.document_service import prepare_pdf_files,prepare_pdf_json_object
 from commands.course_commands import create_new_course, delete_course
 from commands.pdf_commands import save_pdf_file_for_course
@@ -59,7 +59,7 @@ def add_new_course():
     return jsonify({"result":"OK"}),201
 
 @jwt_required()
-@bp.route('/<course_id>/', methods=["PUT"])
+@bp.route('/<course_id>', methods=["PUT"])
 def add_new_pdf_to_course(course_id):
     if not does_course_exists(course_id) :
         return  jsonify({"result":"Course doesn not exists"}),400
@@ -104,13 +104,3 @@ def add_new_pdf(course_id):
     upload_new_pdf_and_send_to_service(pdf_file, course_id)
     
     return jsonify({"result":"OK"}),200
-
-@bp.route('/<course_id>/answer', methods=['GET'])
-def answer_question(course_id):
-    question = request.args.get('question')
-
-    # TODO: validate course
-
-    response, status_code = get_answer_from_service(course_id, question)
-
-    return response, status_code
