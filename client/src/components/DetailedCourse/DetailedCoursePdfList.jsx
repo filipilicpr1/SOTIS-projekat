@@ -1,6 +1,5 @@
 import { Container, CssBaseline, Grow, Box } from "@mui/material";
 import DetailedCoursePdfItem from "./DetailedCoursePdfItem";
-import PdfPreview from "./PdfPreview";
 
 const DetailedCoursePdfList = (props) => {
   const items = props.items.map((item) => (
@@ -26,7 +25,6 @@ const DetailedCoursePdfList = (props) => {
             >
               {items}
             </Box>
-            <PdfPreview />
           </Container>
         </Grow>
       )}

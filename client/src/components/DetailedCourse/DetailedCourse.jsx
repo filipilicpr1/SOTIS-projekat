@@ -78,7 +78,7 @@ const DetailedCourse = () => {
             sx={{
               display: "flex",
               flexDirection: "column",
-              width: "25%",
+              width: "20%",
               m: 2,
             }}
           >
@@ -86,7 +86,7 @@ const DetailedCourse = () => {
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                height: "80%",
+                height: isLoggedIn ? "80%" : "100%",
                 m: 1,
                 backgroundColor: "white",
                 boxShadow: "rgb(0, 128, 0) 0px 0px 0px 2px;",
@@ -102,6 +102,7 @@ const DetailedCourse = () => {
                   fontFamily: "cursive",
                   color: "green",
                   fontWeight: "bold",
+                  fontSize: 16
                 }}
               >
                 {selectedCourse.title}
@@ -122,11 +123,11 @@ const DetailedCourse = () => {
                 }}
               >
                 <IconButton
-                  sx={{ width: "367px", height: "35px", mt: 2 }}
+                  sx={{ width: "290px", height: "35px", mt: 2 }}
                   onClick={pdfUploadHandler}
                 >
                   <Avatar
-                    sx={{ width: "367px", height: "35px", borderRadius: "2%" }}
+                    sx={{ width: "290px", height: "35px", borderRadius: "2%" }}
                     alt="pic"
                   >
                     <PostAddIcon

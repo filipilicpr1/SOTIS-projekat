@@ -40,7 +40,7 @@ const DetailedCoursePdfItem = (props) => {
         sx={{
           m: 1.5,
           borderRadius: "5px",
-          width: "325px",
+          width: "250px",
           backgroundColor: "white",
           boxShadow: "rgb(255, 156, 85) 0px 0px 0px 2px;",
           display: "flex",
@@ -50,18 +50,17 @@ const DetailedCoursePdfItem = (props) => {
         <Typography
           component="h6"
           variant="h6"
-          sx={{ p: 1, color: "orange", fontFamily: "cursive", width: "80%" }}
+          sx={{ p: 1, color: "orange", fontFamily: "cursive", width: "80%", fontSize: 14 }}
         >
           {props.name}
         </Typography>
         <Box
           sx={{
             display: "flex",
-            flexDirection: "row",
-            justifyContent: "flex-end",
+            flexDirection: "column",
+            justifyContent: "center",
             width: "20%",
-            mt: 1.5,
-            mr: 1,
+            ml: 9,
           }}
         >
           <FileOpenIcon style={{ color: "orange" }} />
