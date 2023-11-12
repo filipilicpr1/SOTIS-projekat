@@ -3,7 +3,7 @@ from langchain.chains.question_answering import load_qa_chain
 from langchain.callbacks import get_openai_callback
 
 def get_answer(VectorStore,question):
-    docs=VectorStore.similarity_search(query=question,k=3)   
+    docs=VectorStore.similarity_search(query=question,k=6)   
     
     llm=OpenAI(temperature=0)
     
