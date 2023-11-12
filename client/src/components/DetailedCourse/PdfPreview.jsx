@@ -1,4 +1,4 @@
-import { Modal, Box, Grid, Grow } from "@mui/material";
+import { Box, Grid, Slide } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { closeModal, clearPdf } from "../../store/pdfSlice";
 import CloseIcon from "@mui/icons-material/Close";
@@ -13,16 +13,12 @@ const PdfPreview = () => {
     dispatch(clearPdf());
   };
   return (
-    <Modal open={modalOpen}>
-      <Grow in={modalOpen}>
+      <Slide in={modalOpen} direction="right">
         <Box
           sx={{
-            position: "absolute",
-            top: "2%",
-            left: "18%",
-            transform: "translate(-50%, -50%)",
-            width: 1000,
-            height: 700,
+            width: "180%",
+            height: "95%",
+            mt: 2.5,
             backgroundColor: "white",
             border: "2px solid #000",
             borderRadius: "20px",
@@ -48,17 +44,19 @@ const PdfPreview = () => {
                 onClick={clickHandler}
               />
             </Box>
-            <Box sx={{ height: "90%" }}>
-              <embed
+            <Box sx={{ height: "90%", ml: -2 }}>
+              {
+                pdfFile !== null && <embed
                 src={`data:application/pdf;base64,${pdfFile}`}
-                width={"900px"}
-                height={"640px"}
+                width={"95%"}
+                height={"400%"}
               />
+              }
+              
             </Box>
           </Grid>
         </Box>
-      </Grow>
-    </Modal>
+      </Slide>
   );
 };
 
