@@ -31,6 +31,7 @@ const ChatWindow = () => {
       id={index}
       align={message.align}
       text={message.text}
+      pdf={message.pdf}
     />
   ));
 

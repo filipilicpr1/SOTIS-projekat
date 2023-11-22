@@ -15,8 +15,8 @@ def create_answer(course_id):
     question=request.args.get('question')
     
     if question:
-        answer=get_answer(document,question=question)
-        return make_response(jsonify(answer), 200)
+        answer, pdf_name = get_answer(document,question=question)
+        return make_response(jsonify({"answer": answer, "pdf": pdf_name}), 200)
        
     return make_response(jsonify(ERROR_RESPONSE),400)
     
