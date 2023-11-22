@@ -1,6 +1,7 @@
 from flask import jsonify, Blueprint, request
 from services.course_services import get_answer_from_service
 from queries.course_queries import does_course_exists
+from services.pdf_file_services import get_pdf_file
 
 bp = Blueprint('chat', __name__, url_prefix='/api/chat')
 
@@ -16,4 +17,8 @@ def answer_question(course_id):
 
     response, status_code = get_answer_from_service(course_id, question)
 
-    return jsonify({'result':response}), status_code
+    pdf_name = response['pdf'].strip()
+    pdf_file = get_pdf_file(course_id, pdf_name)
+    response['pdf'] = pdf_file
+
+    return jsonify(response), status_code

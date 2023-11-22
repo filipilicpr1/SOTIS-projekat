@@ -43,8 +43,9 @@ const chatSlice = createSlice({
     builder.addCase(getAnswerAction.fulfilled, (state, action) => {
       state.apiState = "COMPLETED";
       const message = {
-        text: action.payload.result,
+        text: action.payload.answer,
         align: "left",
+        pdf: action.payload.pdf
       };
       state.messages.unshift(message);
     });
