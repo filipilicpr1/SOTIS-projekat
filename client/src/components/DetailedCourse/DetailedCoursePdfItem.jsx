@@ -50,7 +50,8 @@ const DetailedCoursePdfItem = (props) => {
         <Typography
           component="h6"
           variant="h6"
-          sx={{ p: 1, color: "orange", fontFamily: "cursive", width: "80%", fontSize: 14 }}
+          style={{ wordWrap: "break-word"}}
+          sx={{ p: 1, color: "orange", fontFamily: "cursive", width: "90%", fontSize: 14 }}
         >
           {props.name}
         </Typography>
@@ -59,8 +60,7 @@ const DetailedCoursePdfItem = (props) => {
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            width: "20%",
-            ml: 9,
+            width: "10%",
           }}
         >
           <FileOpenIcon style={{ color: "orange" }} />
